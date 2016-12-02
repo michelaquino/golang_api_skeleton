@@ -1,0 +1,10 @@
+version: '2'
+services:
+    api:
+        build: .
+        ports: 
+            - 8080:8888
+        depends_on:
+            - mongodb
+    mongodb:
+        image: mongo:3.2.10
