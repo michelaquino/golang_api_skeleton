@@ -6,5 +6,13 @@ services:
             - 8080:8888
         depends_on:
             - mongodb
+        environment:
+            - MONGO_URL=mongodb 
+            - MONGO_PORT=27017 
+            - MONGO_TIMEOUT=60
+            - MONGO_DATABASE_NAME=api
+            - LOG_LEVEL=debug
+            - LOG_FILE_NAME=api.log
+            - LOG_TO_STDOUT=true
     mongodb:
         image: mongo:3.2.10
