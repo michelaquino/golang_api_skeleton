@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"sync"
 	"time"
 
@@ -52,18 +53,22 @@ func newContextInstance() *context {
 }
 
 func getNewMongoSession() (*mgo.Session, error) {
-	mongoURL := "localhost"
-	mongoPort := 27017
+	mongoURL := os.Getenv("MONGO_URL")
+	mongoPort := getMongoPort()
+	mongoTimeout := getMongoTimeout()
 	mongoAddress := fmt.Sprintf("%s:%d", mongoURL, mongoPort)
-	mongoTimeout := time.Duration(60) * time.Second
+
+	mongoDatabaseName := os.Getenv("MONGO_DATABASE_NAME")
+	mongoUserName := os.Getenv("MONGO_DATABASE_USERNAME")
+	mongoPassword := os.Getenv("MONGO_DATABASE_PASSWORD")
 
 	mongoDBDialInfo := &mgo.DialInfo{
 		Addrs: []string{
 			mongoAddress,
 		},
-		Database: "api",
-		Username: "",
-		Password: "",
+		Database: mongoDatabaseName,
+		Username: mongoUserName,
+		Password: mongoPassword,
 		Timeout:  mongoTimeout,
 	}
 
@@ -71,29 +76,56 @@ func getNewMongoSession() (*mgo.Session, error) {
 	return session, err
 }
 
+func getMongoPort() int {
+	mongoPort, err := strconv.Atoi(os.Getenv("MONGO_PORT"))
+	if err != nil {
+		return 27017
+	}
+
+	return mongoPort
+}
+
+func getMongoTimeout() time.Duration {
+	mongoTimeout, err := strconv.Atoi(os.Getenv("MONGO_TIMEOUT"))
+	if err != nil {
+		return time.Duration(60) * time.Second
+	}
+
+	return time.Duration(mongoTimeout) * time.Second
+}
+
 func getNewLogInstance() *logrus.Logger {
 	logrusLog := logrus.New()
 	logrusLog.Level = getLogLevel()
-	logrusLog.Out = os.Stdout
+	logrusLog.Out = getLogOut()
 	return logrusLog
 }
 
 func getLogLevel() logrus.Level {
-	logLevelConfig := "debug"
+	logLevelConfig := os.Getenv("LOG_LEVEL")
 	level, err := logrus.ParseLevel(logLevelConfig)
 	if err != nil {
-		return logrus.InfoLevel
+		return logrus.DebugLevel
 	}
 
 	return level
 }
 
-func getLogFile() io.Writer {
-	logFileName := "api.log"
+func getLogOut() io.Writer {
+	sendLogToStdout := false
+	if logToStdout, err := strconv.ParseBool(os.Getenv("LOG_TO_STDOUT")); err == nil {
+		sendLogToStdout = logToStdout
+	}
+
+	logFileName := os.Getenv("LOG_FILE_NAME")
 	logFile, err := os.OpenFile(logFileName, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		errorMsg := fmt.Sprintf("Error on open log file: %s", err.Error())
-		panic(errorMsg)
+		fmt.Printf("Error on open log file: %s", err.Error())
+		return os.Stdout
+	}
+
+	if sendLogToStdout {
+		return io.MultiWriter(os.Stdout, logFile)
 	}
 
 	return logFile
