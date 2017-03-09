@@ -1,2 +1,2 @@
-# olx_test
-Projeto de teste para vaga na OLX
+# API skeleton
+API skeleton in golang
