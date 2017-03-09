@@ -1,21 +1,20 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo"
-	"github.com/michelaquino/golang_API_skeleton/context"
+	"github.com/michelaquino/golang_api_skeleton/context"
+	"github.com/michelaquino/golang_api_skeleton/handlers"
+	apiMiddleware "github.com/michelaquino/golang_api_skeleton/middleware"
 )
 
 func main() {
-	apiContext := context.GetAPIContext()
-	logger := apiContext.GetLogger()
+	logger := context.GetLogger()
 
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	echoInstance := echo.New()
+	echoInstance.Use(apiMiddleware.RequestLogDataMiddleware())
 
-	logger.Info("Main", "main", "", "", "", "start app", "success", "Started at port 8888!")
-	e.Logger.Fatal(e.Start(":8888"))
+	echoInstance.GET("/", handlers.Healthcheck)
+
+	logger.Info("Main", "main", "", "", "start app", "success", "Started at port 8888!")
+	echoInstance.Logger.Fatal(echoInstance.Start(":8888"))
 }
