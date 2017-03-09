@@ -17,7 +17,7 @@ func main() {
 	echoInstance := echo.New()
 	echoInstance.Use(apiMiddleware.RequestLogDataMiddleware())
 
-	echoInstance.GET("/", handlers.Healthcheck)
+	echoInstance.GET("/healthcheck", handlers.Healthcheck)
 
 	logger.Info("Main", "main", "", "", "start app", "success", "Started at port 8888!")
 	echoInstance.Logger.Fatal(echoInstance.Start(":8888"))
