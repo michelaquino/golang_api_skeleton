@@ -16,6 +16,6 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	logger.Info("Started at port 8888!")
+	logger.Info("Main", "main", "", "", "", "start app", "success", "Started at port 8888!")
 	e.Logger.Fatal(e.Start(":8888"))
 }
