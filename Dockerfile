@@ -1,5 +1,5 @@
 # Se baseis na imagem https://hub.docker.com/_/golang/
-FROM golang:1.7.4
+FROM golang:1.8
 
 # Copia o diretorio local para o diretorio do container
 ADD . $GOPATH/src/github.com/michelaquino/golang_API_skeleton
