@@ -7,6 +7,10 @@ import (
 	apiMiddleware "github.com/michelaquino/golang_api_skeleton/middleware"
 )
 
+func init() {
+	context.GetMongoSession()
+}
+
 func main() {
 	logger := context.GetLogger()
 
