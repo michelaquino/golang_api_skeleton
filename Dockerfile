@@ -2,13 +2,13 @@
 FROM golang:1.8
 
 # Copia o diretorio local para o diretorio do container
-ADD . $GOPATH/src/github.com/michelaquino/golang_API_skeleton
+ADD . $GOPATH/src/github.com/michelaquino/golang_api_skeleton
 
 # Instala a aplicacao
-RUN go install github.com/michelaquino/golang_API_skeleton
+RUN go install github.com/michelaquino/golang_api_skeleton
 
 # Executa a aplicacao quando o container for iniciado
-ENTRYPOINT $GOPATH/bin/golang_API_skeleton
+ENTRYPOINT $GOPATH/bin/golang_api_skeleton
 
 # Expoe a porta 8080
 EXPOSE 8080
