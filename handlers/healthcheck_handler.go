@@ -9,17 +9,16 @@ import (
 	"github.com/michelaquino/golang_api_skeleton/models"
 )
 
-var userHandlerLog context.Logger
+var healthcheckHandlerLog context.Logger
 
 func init() {
-	userHandlerLog = context.GetLogger()
+	healthcheckHandlerLog = context.GetLogger()
 }
 
 // Healthcheck is a method that respond only WORKING
 func Healthcheck(echoContext echo.Context) error {
-	logger := context.GetLogger()
 	requestLogData := echoContext.Get(apiMiddleware.RequestIDKey).(models.RequestLogData)
 
-	logger.Info("Handlers", "Healthcheck", requestLogData.ID, requestLogData.OriginIP, "Verify Healthcheck", "success", "")
+	healthcheckHandlerLog.Info("Handlers", "Healthcheck", requestLogData.ID, requestLogData.OriginIP, "Verify Healthcheck", "success", "")
 	return echoContext.String(http.StatusOK, "WORKING")
 }
