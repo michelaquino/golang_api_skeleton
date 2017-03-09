@@ -4,10 +4,29 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 
 	mgo "gopkg.in/mgo.v2"
 )
+
+var mongoSession *mgo.Session
+var onceDatabase sync.Once
+
+// GetMongoSession return a copy of mongodb session
+func GetMongoSession() *mgo.Session {
+	onceDatabase.Do(func() {
+		var err error
+
+		mongoSession, err = getNewMongoSession()
+		if err != nil {
+			errorMsg := fmt.Sprintf("Error on start database: %s", err.Error())
+			panic(errorMsg)
+		}
+	})
+
+	return mongoSession.Copy()
+}
 
 func getNewMongoSession() (*mgo.Session, error) {
 	mongoURL := os.Getenv("MONGO_URL")
