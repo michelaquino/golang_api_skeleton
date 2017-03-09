@@ -13,16 +13,16 @@ import (
 // Logger is a interface to log object
 type Logger interface {
 	// Debug write a debug log level
-	Debug(class, method, requestID, user, ip, action, result, message string)
+	Debug(class, method, requestID, ip, action, result, message string)
 
 	// Info write a info log level
-	Info(class, method, requestID, user, ip, action, result, message string)
+	Info(class, method, requestID, ip, action, result, message string)
 
 	// Warn write a warning log level
-	Warn(class, method, requestID, user, ip, action, result, message string)
+	Warn(class, method, requestID, ip, action, result, message string)
 
 	// Error write a error log level
-	Error(class, method, requestID, user, ip, action, result, message string)
+	Error(class, method, requestID, ip, action, result, message string)
 }
 
 // APILog is the API logger
@@ -39,36 +39,35 @@ func NewAPILog() *APILog {
 }
 
 // Debug write a debug log level
-func (m APILog) Debug(class, method, requestID, user, ip, action, result, message string) {
-	fields := getLogFields(class, method, requestID, user, ip, action, result)
+func (m APILog) Debug(class, method, requestID, ip, action, result, message string) {
+	fields := getLogFields(class, method, requestID, ip, action, result)
 	m.log.WithFields(fields).Debug(message)
 }
 
 // Info write a info log level
-func (m APILog) Info(class, method, requestID, user, ip, action, result, message string) {
-	fields := getLogFields(class, method, requestID, user, ip, action, result)
+func (m APILog) Info(class, method, requestID, ip, action, result, message string) {
+	fields := getLogFields(class, method, requestID, ip, action, result)
 	m.log.WithFields(fields).Info(message)
 }
 
 // Warn write a warning log level
-func (m APILog) Warn(class, method, requestID, user, ip, action, result, message string) {
-	fields := getLogFields(class, method, requestID, user, ip, action, result)
+func (m APILog) Warn(class, method, requestID, ip, action, result, message string) {
+	fields := getLogFields(class, method, requestID, ip, action, result)
 	m.log.WithFields(fields).Warn(message)
 }
 
 // Error write a error log level
-func (m APILog) Error(class, method, requestID, user, ip, action, result, message string) {
-	fields := getLogFields(class, method, requestID, user, ip, action, result)
+func (m APILog) Error(class, method, requestID, ip, action, result, message string) {
+	fields := getLogFields(class, method, requestID, ip, action, result)
 	m.log.WithFields(fields).Error(message)
 }
 
 // getLogFields return a logrus fields instance
-func getLogFields(class, method, requestID, user, ip, action, result string) logrus.Fields {
+func getLogFields(class, method, requestID, ip, action, result string) logrus.Fields {
 	return logrus.Fields{
 		"request_id": requestID,
 		"struct":     class,
 		"method":     method,
-		"user_id":    user,
 		"ip":         ip,
 		"action":     action,
 		"result":     result,
