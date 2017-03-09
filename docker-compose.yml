@@ -15,7 +15,7 @@ services:
         environment:
             - LOG_LEVEL=debug
             - LOG_FILE_NAME=api.log
-            - LOG_TO_STDOUT=true
+            - LOG_TO_FILE=false
             - MONGO_URL=mongodb 
             - MONGO_PORT=27017 
             - MONGO_TIMEOUT=60
