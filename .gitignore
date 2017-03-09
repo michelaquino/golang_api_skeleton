@@ -1,0 +1,53 @@
+.DS_Store
+
+#### joe made this: http://goel.io/joe
+
+.DS_Store
+
+#####=== Go ===#####
+
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj
+_test
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+*.exe
+*.test
+*.prof
+
+version.txt
+config/tdi.json
+*.coverprofile
+*.cover
+coverage.out
+coverage.html
+.coverprofile
+
+# Intellij
+.idea/
+
+# Eclipse
+.project
+.settings/
+
+# VSCODE
+.vscode
+
+# Vim 
+*.swp
