@@ -17,6 +17,13 @@
 			"tree": true
 		},
 		{
+			"checksumSHA1": "A5Ug9ROKNwYrhgNzQjMC8xp+qPc=",
+			"path": "github.com/go-redis/redis",
+			"revision": "f33571c93c72d3c4717a7b3c0bce95136496f772",
+			"revisionTime": "2017-03-04T11:38:55Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "j+JnoO9U5qPUVAkLeC6Vp7zN3FM=",
 			"path": "github.com/labstack/echo",
 			"revision": "8d504c1b699c757b267255c53b3e5219f9974abc",
