@@ -11,7 +11,7 @@ A simple API skeleton writen in Go
 
 ## Configuration
 - Docker Compose
-    - Nginx with `proxy_pass` configurated
+    - Nginx with `proxy_pass` pre configurated
     - API
     - MongoDB
 
