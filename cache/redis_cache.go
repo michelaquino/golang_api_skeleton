@@ -7,7 +7,7 @@ import (
 	"github.com/michelaquino/golang_api_skeleton/api_errors"
 	"github.com/michelaquino/golang_api_skeleton/context"
 
-	redis "gopkg.in/redis.v4"
+	"github.com/go-redis/redis"
 )
 
 var cacheLogger context.Logger
