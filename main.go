@@ -5,6 +5,7 @@ import (
 	"github.com/michelaquino/golang_api_skeleton/context"
 	"github.com/michelaquino/golang_api_skeleton/handlers"
 	apiMiddleware "github.com/michelaquino/golang_api_skeleton/middleware"
+	"github.com/michelaquino/golang_api_skeleton/repository"
 )
 
 func init() {
@@ -17,8 +18,21 @@ func main() {
 	echoInstance := echo.New()
 	echoInstance.Use(apiMiddleware.RequestLogDataMiddleware())
 
-	echoInstance.GET("/healthcheck", handlers.Healthcheck)
+	configureHealthcheckRoute(echoInstance)
+	configureUserRoutes(echoInstance)
 
 	logger.Info("Main", "main", "", "", "start app", "success", "Started at port 8888!")
 	echoInstance.Logger.Fatal(echoInstance.Start(":8888"))
+}
+
+func configureHealthcheckRoute(echoInstance *echo.Echo) {
+	echoInstance.GET("/healthcheck", handlers.Healthcheck)
+}
+
+func configureUserRoutes(echoInstance *echo.Echo) {
+	userRepository := new(repository.UserMongoRepository)
+	userHandler := handlers.NewUserHandler(userRepository)
+
+	userGroup := echoInstance.Group("/user")
+	userGroup.POST("", userHandler.CreateUser)
 }
