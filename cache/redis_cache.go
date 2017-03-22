@@ -10,12 +10,6 @@ import (
 	"github.com/go-redis/redis"
 )
 
-var cacheLogger context.Logger
-
-func init() {
-	cacheLogger = context.GetLogger()
-}
-
 // RedisCache is a redis cache object
 type RedisCache struct {
 	client *redis.Client
@@ -23,6 +17,7 @@ type RedisCache struct {
 
 // NewRedisCache returns a new instance of the RedisCache
 func NewRedisCache() *RedisCache {
+	cacheLogger := context.GetLogger()
 	apiConfig := context.GetAPIConfig()
 
 	var redisClient *redis.Client
@@ -37,7 +32,7 @@ func NewRedisCache() *RedisCache {
 	})
 
 	if _, err := redisClient.Ping().Result(); err != nil {
-		cacheLogger.Error("NewRedisCache", "Constructor", "", "", "Ping Redis", err.Error(), "Error when connect on redis")
+		cacheLogger.Error("NewRedisCache", "Constructor", "", "", "Ping Redis", "Error", err.Error())
 	}
 
 	return &RedisCache{
@@ -47,27 +42,32 @@ func NewRedisCache() *RedisCache {
 
 // Get is a method that get an value from cache
 func (r RedisCache) Get(key string) (string, error) {
+	cacheLogger := context.GetLogger()
+
 	cacheValue, err := r.client.Get(key).Result()
 	if err == redis.Nil {
-		cacheLogger.Debug("RedisCache", "Get", "", "", "Get key", redis.Nil.Error(), "Key "+key+" not found on cache")
+		cacheLogger.Debug("RedisCache", "Get", "", "", "Get key", "Key "+key+" not found on cache", redis.Nil.Error())
 		return "", apiErrors.ErrNotFoundOnCache
 	}
 
 	if err != nil {
-		cacheLogger.Error("RedisCache", "Get", "", "", "Get key", err.Error(), "An error occur when get cache value with key "+key)
+		cacheLogger.Error("RedisCache", "Get", "", "", "Get key", "Error", err.Error())
 		return "", apiErrors.ErrGetCacheValue
 	}
 
+	cacheLogger.Error("RedisCache", "Get", "", "", "Get key", "Success", "Object getted with success")
 	return cacheValue, nil
 }
 
 // Set is a method that set a value to cache
 func (r RedisCache) Set(key, value string, expireInSec int) error {
+	cacheLogger := context.GetLogger()
+
 	expire := time.Duration(expireInSec) * time.Second
 
 	err := r.client.Set(key, value, expire).Err()
 	if err != nil {
-		cacheLogger.Error("RedisCache", "Set", "", "", "Set key/value on cache", err.Error(), "An error occur when set cache value with key "+key)
+		cacheLogger.Error("RedisCache", "Set", "", "", "Set key/value on cache", "Error", err.Error())
 	}
 
 	cacheLogger.Debug("RedisCache", "Set", "", "", "Set key/value on cache", "Success", "Set key "+key+" on cache with expire in "+strconv.Itoa(expireInSec)+" seconds")
