@@ -12,6 +12,7 @@ services:
             - 8888:8888
         depends_on:
             - mongodb
+            - redis
         environment:
             - LOG_LEVEL=debug
             - LOG_FILE_NAME=api.log
@@ -20,6 +21,9 @@ services:
             - MONGO_PORT=27017 
             - MONGO_TIMEOUT=60
             - MONGO_DATABASE_NAME=api
+            - REDIS_URL=redis
     mongodb:
         image: mongo:3.2.10
+    redis:
+        image: redis:3
     

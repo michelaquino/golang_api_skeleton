@@ -23,14 +23,15 @@ type RedisCache struct {
 
 // NewRedisCache returns a new instance of the RedisCache
 func NewRedisCache() *RedisCache {
+	apiConfig := context.GetAPIConfig()
 
 	var redisClient *redis.Client
 	cacheLogger.Info("NewRedisCache", "Constructor", "", "", "", "", "")
 	redisClient = redis.NewClient(&redis.Options{
 		ReadTimeout:  time.Duration(1) * time.Second,
 		WriteTimeout: time.Duration(1) * time.Second,
-		Addr:         "http://localhost",
-		Password:     "123456",
+		Addr:         apiConfig.RedisConfig.RedisURL,
+		Password:     apiConfig.RedisConfig.RedisPassword,
 		DB:           0,
 		PoolSize:     5000,
 	})
