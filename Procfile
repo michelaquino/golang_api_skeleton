@@ -1,0 +1,1 @@
+web: ./golang_api_skeleton
