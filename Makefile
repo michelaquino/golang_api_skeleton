@@ -1,6 +1,4 @@
-# Go parameters
-GOCMD				:= go
-PROJECT_PKGS        := $(shell $(GOCMD) list ./... | grep -v '/vendor/')
+include Makefile.vars
 
 .PHONY: run
 run: docker-compose-build-api docker-compose-up-api
