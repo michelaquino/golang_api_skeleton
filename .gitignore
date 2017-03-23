@@ -51,3 +51,6 @@ coverage.html
 
 # Vim 
 *.swp
+
+# binary
+golang_api_skeleton
