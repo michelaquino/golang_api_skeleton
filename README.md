@@ -20,6 +20,7 @@
     - Nginx with `proxy_pass` pre configurated
     - API
     - MongoDB
+    - Redis
 
 ## Run
 `make run`
