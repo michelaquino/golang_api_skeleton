@@ -48,6 +48,16 @@ func Test_CreateUser_ShouldReturnStatusInternalServerErrorWhenRepositoryReturnEr
 	assert.Equal(t, http.StatusInternalServerError, recorder.Code)
 }
 
+func Test_CreateUser_ShouldReturnStatusCreated(t *testing.T) {
+	setupUserHandlerTest(t)
+	recorder, echoContext := getTestBaseObjects()
+
+	userRepositoryMock.On("Insert", mock.Anything, mock.Anything).Return(nil)
+
+	userHandler.CreateUser(echoContext)
+	assert.Equal(t, http.StatusCreated, recorder.Code)
+}
+
 func getTestBaseObjects() (*httptest.ResponseRecorder, echo.Context) {
 	recorder := httptest.NewRecorder()
 	request := httptest.NewRequest(http.MethodPost, serverMock.URL, nil)
