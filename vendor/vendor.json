@@ -77,6 +77,13 @@
 			"revisionTime": "2016-11-23T14:36:37Z"
 		},
 		{
+			"checksumSHA1": "hmJR/Fs7/sTLynZZixfkA1iN5B0=",
+			"path": "github.com/newrelic/go-agent",
+			"revision": "60ed7aa03a85a1355b4189f66e23604de8f27d57",
+			"revisionTime": "2017-03-16T23:47:42Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
 			"path": "github.com/pmezard/go-difflib/difflib",
 			"revision": "792786c7400a136282c1664665ae0a8db921c6c2",
