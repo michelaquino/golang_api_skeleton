@@ -12,7 +12,7 @@ import (
 func NewRelicMiddleware(newrelicApp newrelic.Application) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(echoContext echo.Context) error {
-			responseWriter := echoContext.Response().Writer()
+			responseWriter := echoContext.Response().Writer
 
 			// Copy struct request to remove body
 			requestCopy := *echoContext.Request()
