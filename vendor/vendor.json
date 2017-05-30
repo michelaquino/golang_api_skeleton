@@ -30,10 +30,10 @@
 			"tree": true
 		},
 		{
-			"checksumSHA1": "j+JnoO9U5qPUVAkLeC6Vp7zN3FM=",
+			"checksumSHA1": "tmnhA+F3lUrlI542T3f+lRjKNY0=",
 			"path": "github.com/labstack/echo",
-			"revision": "8d504c1b699c757b267255c53b3e5219f9974abc",
-			"revisionTime": "2016-12-02T17:28:18Z",
+			"revision": "466d509e34e07d1313fdb152a11243ae9df10b5c",
+			"revisionTime": "2017-05-27T10:10:51Z",
 			"tree": true
 		},
 		{

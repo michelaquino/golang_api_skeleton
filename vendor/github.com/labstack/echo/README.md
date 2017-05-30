@@ -1,4 +1,4 @@
-# [Echo] (https://echo.labstack.com) [![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](http://godoc.org/github.com/labstack/echo) [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Build Status](http://img.shields.io/travis/labstack/echo.svg?style=flat-square)](https://travis-ci.org/labstack/echo) [![Coverage Status](http://img.shields.io/coveralls/labstack/echo.svg?style=flat-square)](https://coveralls.io/r/labstack/echo) [![Join the chat at https://gitter.im/labstack/echo](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg?style=flat-square)](https://gitter.im/labstack/echo) [![Twitter](https://img.shields.io/badge/twitter-@labstack-55acee.svg?style=flat-square)](https://twitter.com/labstack)
+# [Echo](https://echo.labstack.com) [![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](http://godoc.org/github.com/labstack/echo) [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Build Status](http://img.shields.io/travis/labstack/echo.svg?style=flat-square)](https://travis-ci.org/labstack/echo) [![Coverage Status](http://img.shields.io/coveralls/labstack/echo.svg?style=flat-square)](https://coveralls.io/r/labstack/echo) [![Join the chat at https://gitter.im/labstack/echo](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg?style=flat-square)](https://gitter.im/labstack/echo) [![Twitter](https://img.shields.io/badge/twitter-@labstack-55acee.svg?style=flat-square)](https://twitter.com/labstack)
 
 ## Feature Overview
 
@@ -15,7 +15,6 @@
 - Highly customizable
 - Automatic TLS via Let’s Encrypt
 - HTTP/2 support
-- Built-in graceful shutdown
 
 ## Performance
 
@@ -34,10 +33,16 @@
 
 **Use issues for everything**
 
-- Report issues
-- Discuss on chat before sending a pull request
-- Suggest new features or enhancements
-- Improve/fix documentation
+- For a small change, just send a PR.
+- For bigger changes open an issue for discussion before sending a PR.
+- PR should have:
+  - Test case
+  - Documentation
+  - Example (If it makes sense)
+- You can also contribute by:
+  - Reporting issues
+  - Suggesting new features or enhancements
+  - Improve/fix documentation
 
 ## Credits
 - [Vishal Rana](https://github.com/vishr) - Author
