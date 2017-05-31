@@ -1,13 +1,12 @@
 package context
 
 import (
-	"fmt"
-	"io"
 	"os"
 	"strconv"
 	"sync"
 
-	"github.com/Sirupsen/logrus"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 // Logger is a interface to log object
@@ -27,50 +26,58 @@ type Logger interface {
 
 // APILog is the API logger
 type APILog struct {
-	log *logrus.Logger
+	logger *zap.Logger
 }
 
 // NewAPILog returns a pointer of the APILog
 func NewAPILog() *APILog {
-	logrusInstance := getNewLogrusInstance()
+	loggerInstance := getNewLogInstance()
 	return &APILog{
-		log: logrusInstance,
+		logger: loggerInstance,
 	}
 }
 
 // Debug write a debug log level
-func (m APILog) Debug(class, method, requestID, ip, action, result, message string) {
+func (l APILog) Debug(class, method, requestID, ip, action, result, message string) {
+	defer l.logger.Sync()
+
 	fields := getLogFields(class, method, requestID, ip, action, result)
-	m.log.WithFields(fields).Debug(message)
+	l.logger.Debug(message, fields...)
 }
 
 // Info write a info log level
-func (m APILog) Info(class, method, requestID, ip, action, result, message string) {
+func (l APILog) Info(class, method, requestID, ip, action, result, message string) {
+	defer l.logger.Sync()
+
 	fields := getLogFields(class, method, requestID, ip, action, result)
-	m.log.WithFields(fields).Info(message)
+	l.logger.Info(message, fields...)
 }
 
 // Warn write a warning log level
-func (m APILog) Warn(class, method, requestID, ip, action, result, message string) {
+func (l APILog) Warn(class, method, requestID, ip, action, result, message string) {
+	defer l.logger.Sync()
+
 	fields := getLogFields(class, method, requestID, ip, action, result)
-	m.log.WithFields(fields).Warn(message)
+	l.logger.Warn(message, fields...)
 }
 
 // Error write a error log level
-func (m APILog) Error(class, method, requestID, ip, action, result, message string) {
+func (l APILog) Error(class, method, requestID, ip, action, result, message string) {
+	defer l.logger.Sync()
+
 	fields := getLogFields(class, method, requestID, ip, action, result)
-	m.log.WithFields(fields).Error(message)
+	l.logger.Error(message, fields...)
 }
 
 // getLogFields return a logrus fields instance
-func getLogFields(class, method, requestID, ip, action, result string) logrus.Fields {
-	return logrus.Fields{
-		"request_id": requestID,
-		"struct":     class,
-		"method":     method,
-		"ip":         ip,
-		"action":     action,
-		"result":     result,
+func getLogFields(class, method, requestID, ip, action, result string) []zapcore.Field {
+	return []zapcore.Field{
+		zap.String("request_id", requestID),
+		zap.String("struct", class),
+		zap.String("method", method),
+		zap.String("ip", ip),
+		zap.String("action", action),
+		zap.String("result", result),
 	}
 }
 
@@ -86,26 +93,49 @@ func GetLogger() Logger {
 	return apiLogger
 }
 
-// getNewLogrusInstance return a new instance of Logrus log
-func getNewLogrusInstance() *logrus.Logger {
-	logrusLog := logrus.New()
-	logrusLog.Level = getLogLevel()
-	logrusLog.Out = getLogOut()
-	logrusLog.Formatter = &logrus.JSONFormatter{}
-	return logrusLog
-}
+// getNewLogInstance return a new instance of Logrus log
+func getNewLogInstance() *zap.Logger {
+	logLevel := getLogLevel()
 
-func getLogLevel() logrus.Level {
-	logLevelConfig := os.Getenv("LOG_LEVEL")
-	level, err := logrus.ParseLevel(logLevelConfig)
-	if err != nil {
-		return logrus.ErrorLevel
+	logOutputPaths := getLogOutputPaths()
+
+	config := zap.Config{
+		Level:       zap.NewAtomicLevelAt(logLevel),
+		Development: false,
+		Sampling: &zap.SamplingConfig{
+			Initial:    100,
+			Thereafter: 100,
+		},
+		Encoding:         "json",
+		EncoderConfig:    zap.NewProductionEncoderConfig(),
+		OutputPaths:      logOutputPaths,
+		ErrorOutputPaths: logOutputPaths,
 	}
 
-	return level
+	logger, _ := config.Build()
+	return logger
 }
 
-func getLogOut() io.Writer {
+func getLogLevel() zapcore.Level {
+	logLevelConfig := os.Getenv("LOG_LEVEL")
+	if logLevelConfig == "debug" {
+		return zap.DebugLevel
+	}
+
+	if logLevelConfig == "info" {
+		return zap.InfoLevel
+	}
+
+	if logLevelConfig == "warn" {
+		return zap.WarnLevel
+	}
+
+	return zap.ErrorLevel
+}
+
+func getLogOutputPaths() []string {
+	paths := []string{"stderr"}
+
 	sendLogToFile := false
 	if logToFile, err := strconv.ParseBool(os.Getenv("LOG_TO_FILE")); err == nil {
 		sendLogToFile = logToFile
@@ -113,14 +143,8 @@ func getLogOut() io.Writer {
 
 	if sendLogToFile {
 		logFileName := os.Getenv("LOG_FILE_NAME")
-		logFile, err := os.OpenFile(logFileName, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-		if err != nil {
-			fmt.Printf("Error on open log file: %s", err.Error())
-			return os.Stdout
-		}
-
-		return io.MultiWriter(os.Stdout, logFile)
+		paths = append(paths, logFileName)
 	}
 
-	return os.Stdout
+	return paths
 }
