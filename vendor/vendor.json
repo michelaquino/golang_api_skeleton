@@ -135,6 +135,19 @@
 			"revisionTime": "2017-01-12T11:45:30Z"
 		},
 		{
+			"checksumSHA1": "rEgwRH5aExv834E2w/7oC7NI3rc=",
+			"path": "go.uber.org/atomic",
+			"revision": "908889c45e73bedd558e99819aea3be3503fc581",
+			"revisionTime": "2017-05-09T22:51:15Z"
+		},
+		{
+			"checksumSHA1": "tF6HJq46RD9vGP1q2yo8XT3iRrY=",
+			"path": "go.uber.org/zap",
+			"revision": "b33459c467c82258245f3bcf0ef26d0fcf2b79f5",
+			"revisionTime": "2017-05-25T15:36:14Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "TK1Yr8BbwionaaAvM+77lwAAx/8=",
 			"path": "golang.org/x/crypto/acme",
 			"revision": "7c6cc321c680f03b9ef0764448e780704f486b51",
