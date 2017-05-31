@@ -3,13 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "Z24xxDAmFkzA2Lx0IMXPsBheFpI=",
-			"path": "github.com/Sirupsen/logrus",
-			"revision": "881bee4e20a5d11a6a88a5667c6f292072ac1963",
-			"revisionTime": "2016-12-02T02:35:07Z",
-			"tree": true
-		},
-		{
 			"checksumSHA1": "dvabztWVQX8f6oMLRyv4dLH+TGY=",
 			"path": "github.com/davecgh/go-spew/spew",
 			"revision": "346938d642f2ec3594ed81d874461961cd0faa76",
@@ -183,12 +176,6 @@
 			"path": "gopkg.in/airbrake/gobrake.v2",
 			"revision": "668876711219e8b0206e2994bf0a59d889c775aa",
 			"revisionTime": "2016-11-22T14:53:54Z"
-		},
-		{
-			"checksumSHA1": "vP8dk4DLQ+5DnYx8QwJueq0hZN8=",
-			"path": "gopkg.in/gemnasium/logrus-airbrake-hook.v2",
-			"revision": "bfee1239d796830ca346767650cce5ba90d58c57",
-			"revisionTime": "2016-09-22T18:41:14Z"
 		},
 		{
 			"checksumSHA1": "1D8GzeoFGUs5FZOoyC2DpQg8c5Y=",
