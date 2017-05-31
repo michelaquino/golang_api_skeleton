@@ -6,7 +6,7 @@
 
 
 ## Includes
-  - [Uber Zap - Log library](https://github.com/uber-go/zap)
+  - [Zap - Uber Log library](https://github.com/uber-go/zap)
   - [Echo Framework](https://github.com/labstack/echo)
   - [mgo - MongoDB driver](https://github.com/go-mgo/mgo/tree/v2)
   - [Go-Redis](github.com/go-redis/redis)
