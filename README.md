@@ -31,7 +31,7 @@
 
 ## Release History
 
-* 0.0.1
+* 0.2.0
     * Work in progress
 
 ## Meta
