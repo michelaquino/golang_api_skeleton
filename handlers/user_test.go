@@ -52,6 +52,18 @@ func Test_CreateUser_ShouldReturnStatusInternalServerErrorWhenRepositoryReturnEr
 	assert.Equal(t, http.StatusInternalServerError, recorder.Code)
 }
 
+func Test_CreateUser_ShouldReturnStatusBadRequestWhenBindPayloadToModel(t *testing.T) {
+	setupUserHandlerTest(t)
+
+	invalidBodyPayload := strings.NewReader(`invalid json`)
+	recorder, echoContext := getTestBaseObjects(invalidBodyPayload)
+
+	userRepositoryMock.On("Insert", mock.Anything, mock.Anything).Return(nil)
+
+	userHandler.CreateUser(echoContext)
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+}
+
 func Test_CreateUser_ShouldReturnStatusCreated(t *testing.T) {
 	setupUserHandlerTest(t)
 
