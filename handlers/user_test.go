@@ -3,8 +3,10 @@ package handlers
 import (
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	apiMiddleware "github.com/michelaquino/golang_api_skeleton/middleware"
@@ -40,7 +42,9 @@ func setupUserHandlerTest(t *testing.T) {
 
 func Test_CreateUser_ShouldReturnStatusInternalServerErrorWhenRepositoryReturnError(t *testing.T) {
 	setupUserHandlerTest(t)
-	recorder, echoContext := getTestBaseObjects()
+
+	bodyPayload := strings.NewReader(`{"name": "123456", "email": "89978"}`)
+	recorder, echoContext := getTestBaseObjects(bodyPayload)
 
 	userRepositoryMock.On("Insert", mock.Anything, mock.Anything).Return(errors.New("Unexpected error"))
 
@@ -50,7 +54,9 @@ func Test_CreateUser_ShouldReturnStatusInternalServerErrorWhenRepositoryReturnEr
 
 func Test_CreateUser_ShouldReturnStatusCreated(t *testing.T) {
 	setupUserHandlerTest(t)
-	recorder, echoContext := getTestBaseObjects()
+
+	bodyPayload := strings.NewReader(`{"name": "123456", "email": "89978"}`)
+	recorder, echoContext := getTestBaseObjects(bodyPayload)
 
 	userRepositoryMock.On("Insert", mock.Anything, mock.Anything).Return(nil)
 
@@ -58,9 +64,11 @@ func Test_CreateUser_ShouldReturnStatusCreated(t *testing.T) {
 	assert.Equal(t, http.StatusCreated, recorder.Code)
 }
 
-func getTestBaseObjects() (*httptest.ResponseRecorder, echo.Context) {
+func getTestBaseObjects(body io.Reader) (*httptest.ResponseRecorder, echo.Context) {
 	recorder := httptest.NewRecorder()
-	request := httptest.NewRequest(http.MethodPost, serverMock.URL, nil)
+	request := httptest.NewRequest(http.MethodPost, serverMock.URL, body)
+	request.Header.Add("Content-Type", "application/json")
+
 	echoInstance := echo.New()
 	echoContext := echoInstance.NewContext(request, recorder)
 
