@@ -1,7 +1,8 @@
 # Golang API Skeleton
 > A simple API skeleton writen in Go
 
-[![Build Status][travis-image]][travis-url]
+
+[![Build Status](https://travis-ci.org/michelaquino/golang_api_skeleton.svg?branch=master)](https://travis-ci.org/michelaquino/golang_api_skeleton)
 [![License][license-image]][license-url]
 
 
