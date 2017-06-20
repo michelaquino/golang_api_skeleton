@@ -27,16 +27,17 @@ func (h UserHandler) CreateUser(echoContext echo.Context) error {
 	userHandlerLog := context.GetLogger()
 	requestLogData := echoContext.Get(apiMiddleware.RequestIDKey).(models.RequestLogData)
 
-	userModel := models.UserModel{
-		Name:  "User name",
-		Email: "user@mail.com",
+	userModel := models.UserModel{}
+	if err := echoContext.Bind(&userModel); err != nil {
+		userHandlerLog.Error("UserHandler", "CreateUser", requestLogData.ID, requestLogData.OriginIP, "Bind payload to model", "Error", err.Error())
+		return echoContext.NoContent(http.StatusBadRequest)
 	}
 
 	if err := h.userRepository.Insert(requestLogData, userModel); err != nil {
-		userHandlerLog.Error("Handlers", "CreateUser", requestLogData.ID, requestLogData.OriginIP, "Create user", "Error", err.Error())
+		userHandlerLog.Error("UserHandler", "CreateUser", requestLogData.ID, requestLogData.OriginIP, "Create user", "Error", err.Error())
 		return echoContext.NoContent(http.StatusInternalServerError)
 	}
 
-	userHandlerLog.Info("Handlers", "CreateUser", requestLogData.ID, requestLogData.OriginIP, "Create user", "Success", "")
+	userHandlerLog.Info("UserHandler", "CreateUser", requestLogData.ID, requestLogData.OriginIP, "Create user", "Success", "")
 	return echoContext.NoContent(http.StatusCreated)
 }
