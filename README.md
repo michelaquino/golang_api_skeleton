@@ -30,7 +30,7 @@
 ## Usage
 `curl http://localhost/healthcheck`
 
-`curl -X POST -d '{"name": "user name", "email": "user@email.com"}' http://localhost/user`
+`curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "user name", "email": "user@email.com"}' http://localhost/user`
 
 ## Release History
 
