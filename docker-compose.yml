@@ -13,6 +13,7 @@ services:
         depends_on:
             - mongodb
             - redis
+            - mysql
         environment:
             - LOG_LEVEL=debug
             - LOG_FILE_NAME=api.log
@@ -27,6 +28,10 @@ services:
             - REDIS_URL=redis
     mongodb:
         image: mongo:3.2.10
+    mysql:
+        image: mysql/mysql-server:latest
+        environment:
+            - MYSQL_ROOT_PASSWORD=mysqlPassword
     redis:
         image: redis:3
     
