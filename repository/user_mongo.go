@@ -22,6 +22,6 @@ func (u UserMongoRepository) Insert(requestLogData models.RequestLogData, userTo
 		return err
 	}
 
-	log.Error("UserMongoRepository", "Create", requestLogData.ID, requestLogData.OriginIP, "Create user", "Success", "")
+	log.Info("UserMongoRepository", "Create", requestLogData.ID, requestLogData.OriginIP, "Create user", "Success", "")
 	return nil
 }
