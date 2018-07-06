@@ -2,9 +2,10 @@
 
 
 [[projects]]
+  branch = "master"
   name = "github.com/beorn7/perks"
   packages = ["quantile"]
-  revision = "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9"
+  revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -20,19 +21,24 @@
     "internal/consistenthash",
     "internal/hashtag",
     "internal/pool",
-    "internal/proto"
+    "internal/proto",
+    "internal/singleflight",
+    "internal/util"
   ]
-  revision = "f33571c93c72d3c4717a7b3c0bce95136496f772"
+  revision = "83fb42932f6145ce52df09860384a4653d2d332a"
+  version = "v6.12.0"
 
 [[projects]]
   name = "github.com/golang/protobuf"
   packages = ["proto"]
-  revision = "0a4f71a498b7c4812f64969510bcb4eca251e33a"
+  revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
+  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/labstack/echo"
   packages = ["."]
-  revision = "466d509e34e07d1313fdb152a11243ae9df10b5c"
+  revision = "6d227dfea4d2e52cb76856120b3c17f758139b4e"
+  version = "3.3.5"
 
 [[projects]]
   name = "github.com/labstack/gommon"
@@ -40,18 +46,20 @@
     "color",
     "log"
   ]
-  revision = "f72d3c883f8ea180da8f085dd320804c41332ad1"
+  revision = "d6898124de917583f5ff5592ef931d1dfe0ddc05"
+  version = "0.2.6"
 
 [[projects]]
   name = "github.com/mattn/go-colorable"
   packages = ["."]
-  revision = "d228849504861217f796da67fae4f6e347643f15"
-  version = "v0.0.7"
+  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
+  version = "v0.0.9"
 
 [[projects]]
   name = "github.com/mattn/go-isatty"
   packages = ["."]
-  revision = "30a891c33c7cde7b02a981314b4228ec99380cca"
+  revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
+  version = "v0.0.3"
 
 [[projects]]
   name = "github.com/matttproud/golang_protobuf_extensions"
@@ -64,13 +72,14 @@
   packages = [
     ".",
     "internal",
+    "internal/cat",
     "internal/jsonx",
     "internal/logger",
     "internal/sysinfo",
     "internal/utilization"
   ]
-  revision = "60ed7aa03a85a1355b4189f66e23604de8f27d57"
-  version = "v1.8.0"
+  revision = "f5bce3387232559bcbe6a5f8227c4bf508dac1ba"
+  version = "v1.11.0"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -84,39 +93,47 @@
     "prometheus",
     "prometheus/promhttp"
   ]
-  revision = "95b6848b5c5bb71e3f68cd512ae5a8153c35e41f"
+  revision = "c5b7fccd204277076155f10851dad72b76a49317"
+  version = "v0.8.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/prometheus/client_model"
   packages = ["go"]
-  revision = "6f3806018612930941127f2a7c6c453ba2c527d2"
+  revision = "99fa1f4be8e564e8a6b613da7fa6f46c9edafc6c"
 
 [[projects]]
+  branch = "master"
   name = "github.com/prometheus/common"
   packages = [
     "expfmt",
     "internal/bitbucket.org/ww/goautoneg",
     "model"
   ]
-  revision = "3e6a7635bac6573d43f49f97b47eb9bda195dba8"
+  revision = "7600349dcfe1abd18d72d3a1770870d9800a7801"
 
 [[projects]]
+  branch = "master"
   name = "github.com/prometheus/procfs"
   packages = [
     ".",
+    "internal/util",
+    "nfs",
     "xfs"
   ]
-  revision = "e645f4e5aaa8506fc71d6edbc5c4ff02c04c46f2"
+  revision = "ae68e2d4c00fed4943b5f6698d504a5fe083da8a"
 
 [[projects]]
   name = "github.com/satori/go.uuid"
   packages = ["."]
-  revision = "b061729afc07e77a8aa4fad0a2fd840958f1942a"
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
 
 [[projects]]
   name = "github.com/stretchr/objx"
   packages = ["."]
-  revision = "1a9d0bb9f541897e62256577b352fdbc1fb4fd94"
+  revision = "477a77ecc69700c7cdeb1fa9e129548e1c1c393c"
+  version = "v0.1.1"
 
 [[projects]]
   name = "github.com/stretchr/testify"
@@ -124,7 +141,8 @@
     "assert",
     "mock"
   ]
-  revision = "4d4bfba8f1d1027c4fdbe371823030df51419987"
+  revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
+  version = "v1.2.2"
 
 [[projects]]
   branch = "master"
@@ -133,14 +151,22 @@
   revision = "e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7"
 
 [[projects]]
+  branch = "master"
   name = "github.com/valyala/fasttemplate"
   packages = ["."]
-  revision = "d090d65668a286d9a180d43a19dfdc5dcad8fe88"
+  revision = "dcecefd839c4193db0d35b88ec65b4c12d360ab0"
 
 [[projects]]
   name = "go.uber.org/atomic"
   packages = ["."]
-  revision = "908889c45e73bedd558e99819aea3be3503fc581"
+  revision = "1ea20fb1cbb1cc08cbd0d913a96dead89aa18289"
+  version = "v1.3.2"
+
+[[projects]]
+  name = "go.uber.org/multierr"
+  packages = ["."]
+  revision = "3c4937480c32f4c13a875a1829af76c98ca3d40a"
+  version = "v1.1.0"
 
 [[projects]]
   name = "go.uber.org/zap"
@@ -150,33 +176,28 @@
     "internal/bufferpool",
     "internal/color",
     "internal/exit",
-    "internal/multierror",
     "zapcore"
   ]
-  revision = "b33459c467c82258245f3bcf0ef26d0fcf2b79f5"
+  revision = "eeedf312bc6c57391d84767a4cd413f02a917974"
+  version = "v1.8.0"
 
 [[projects]]
+  branch = "master"
   name = "golang.org/x/crypto"
   packages = [
     "acme",
     "acme/autocert"
   ]
-  revision = "7c6cc321c680f03b9ef0764448e780704f486b51"
+  revision = "a49355c7e3f8fe157a85be2f77e6e269a0f89602"
 
 [[projects]]
-  name = "golang.org/x/net"
-  packages = [
-    "context",
-    "context/ctxhttp"
-  ]
-  revision = "60c41d1de8da134c05b7b40154a9a82bf5b7edb9"
-
-[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "ca83bd2cb9abb47839b50eb4da612f00158f5870"
+  revision = "151529c776cdc58ddbe7963ba9af779f3577b419"
 
 [[projects]]
+  branch = "v2"
   name = "gopkg.in/mgo.v2"
   packages = [
     ".",
@@ -185,7 +206,7 @@
     "internal/sasl",
     "internal/scram"
   ]
-  revision = "3f83fa5005286a7fe593b055f0d7771a7dce4655"
+  revision = "9856a29383ce1c59f308dd1cf0363a79b5bef6b5"
 
 [solve-meta]
   analyzer-name = "dep"
