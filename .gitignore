@@ -54,3 +54,6 @@ coverage.html
 
 # binary
 golang_api_skeleton
+
+# Dependencies
+vendor
