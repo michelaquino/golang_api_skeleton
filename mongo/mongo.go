@@ -27,8 +27,8 @@ func Insert(collection string, objectToInsert interface{}) error {
 	err := connection.Insert(&objectToInsert)
 
 	// Send metrics to prometheus
-	metrics.MongoDBDurationsSumary.WithLabelValues("insert").Observe(time.Since(now).Seconds())
-	metrics.MongoDBDurationsHistogram.WithLabelValues("insert").Observe(time.Since(now).Seconds())
+	metrics.MongoDBDurationsSumary.WithLabelValues("Insert").Observe(time.Since(now).Seconds())
+	metrics.MongoDBDurationsHistogram.WithLabelValues("Insert").Observe(time.Since(now).Seconds())
 
 	if err != nil {
 		log.Error("Mongo", "Insert", "", "", "", "Error on insert object", err.Error())
@@ -40,6 +40,9 @@ func Insert(collection string, objectToInsert interface{}) error {
 }
 
 func FindOne(collection string, query bson.M, object interface{}) error {
+	// Now time to metrics
+	now := time.Now()
+
 	session := context.GetMongoSession()
 	defer session.Close()
 
@@ -49,6 +52,10 @@ func FindOne(collection string, query bson.M, object interface{}) error {
 	connection := session.DB(mongoDatabaseName).C(collection)
 
 	err := connection.Find(query).One(object)
+
+	metrics.MongoDBDurationsSumary.WithLabelValues("FindOne").Observe(time.Since(now).Seconds())
+	metrics.MongoDBDurationsHistogram.WithLabelValues("FindOne").Observe(time.Since(now).Seconds())
+
 	if err != nil {
 		log.Error("Mongo", "Find", "", "", "", "Error on getting object", err.Error())
 		return err
@@ -59,6 +66,9 @@ func FindOne(collection string, query bson.M, object interface{}) error {
 }
 
 func FindAll(collection string, query bson.M) ([]interface{}, error) {
+	// Now time to metrics
+	now := time.Now()
+
 	session := context.GetMongoSession()
 	defer session.Close()
 
@@ -69,6 +79,10 @@ func FindAll(collection string, query bson.M) ([]interface{}, error) {
 	connection := session.DB(mongoDatabaseName).C(collection)
 
 	err := connection.Find(query).All(&objectList)
+
+	metrics.MongoDBDurationsSumary.WithLabelValues("FindAll").Observe(time.Since(now).Seconds())
+	metrics.MongoDBDurationsHistogram.WithLabelValues("FindAll").Observe(time.Since(now).Seconds())
+
 	if err != nil {
 		log.Error("Mongo", "FindAll", "", "", "", "Error on getting object list", err.Error())
 		return nil, err
@@ -79,6 +93,9 @@ func FindAll(collection string, query bson.M) ([]interface{}, error) {
 }
 
 func Remove(collection string, query bson.M) error {
+	// Now time to metrics
+	now := time.Now()
+
 	session := context.GetMongoSession()
 	defer session.Close()
 
@@ -88,6 +105,10 @@ func Remove(collection string, query bson.M) error {
 	connection := session.DB(mongoDatabaseName).C(collection)
 
 	_, err := connection.RemoveAll(query)
+
+	metrics.MongoDBDurationsSumary.WithLabelValues("Remove").Observe(time.Since(now).Seconds())
+	metrics.MongoDBDurationsHistogram.WithLabelValues("Remove").Observe(time.Since(now).Seconds())
+
 	if err != nil {
 		log.Error("Mongo", "Remove", "", "", "", "Error on remove object", err.Error())
 		return err
@@ -98,6 +119,9 @@ func Remove(collection string, query bson.M) error {
 }
 
 func Update(collection string, objectID bson.ObjectId, objectToUpdate interface{}) error {
+	// Now time to metrics
+	now := time.Now()
+
 	log := context.GetLogger()
 	log.Info("Mongo", "Update", "", "", "", fmt.Sprintf("Updating object in collection %s", collection), "")
 
@@ -109,6 +133,10 @@ func Update(collection string, objectID bson.ObjectId, objectToUpdate interface{
 
 	connection := session.DB(mongoDatabaseName).C(collection)
 	err := connection.Update(query, change)
+
+	metrics.MongoDBDurationsSumary.WithLabelValues("Update").Observe(time.Since(now).Seconds())
+	metrics.MongoDBDurationsHistogram.WithLabelValues("Update").Observe(time.Since(now).Seconds())
+
 	if err != nil {
 		log.Error("Mongo", "Update", "", "", "", "Error on update object", err.Error())
 		return err
