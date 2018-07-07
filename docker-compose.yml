@@ -15,17 +15,18 @@ services:
             - redis
             - mysql
         environment:
-            - LOG_LEVEL=debug
-            - LOG_FILE_NAME=api.log
-            - LOG_TO_FILE=false
-            - ENABLE_NEW_RELIC=false
-            - NEW_RELIC_LICENSE_KEY=key
-            - NEW_RELIC_PROXY_URL=http://newrelicproxy.com
-            - MONGO_URL=mongodb 
-            - MONGO_PORT=27017 
-            - MONGO_TIMEOUT=60
-            - MONGO_DATABASE_NAME=api
-            - REDIS_URL=redis
+            HOST_PORT: 8888
+            LOG_LEVEL: debug
+            LOG_FILE_NAME: api.log
+            LOG_TO_FILE: "false"
+            ENABLE_NEW_RELIC: "false"
+            NEW_RELIC_LICENSE_KEY: key
+            NEW_RELIC_PROXY_URL: http://newrelicproxy.com
+            MONGO_URL: mongodb 
+            MONGO_PORT: 27017 
+            MONGO_TIMEOUT: 60
+            MONGO_DATABASE_NAME: api
+            REDIS_URL: redis
     mongodb:
         image: mongo:3.2.10
     mysql:

@@ -1,13 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 	"os"
 	"strconv"
 
 	"github.com/labstack/echo"
-	"github.com/michelaquino/golang_api_skeleton/context"
+	apiContext "github.com/michelaquino/golang_api_skeleton/context"
 	"github.com/michelaquino/golang_api_skeleton/handlers"
 	apiMiddleware "github.com/michelaquino/golang_api_skeleton/middleware"
 	"github.com/michelaquino/golang_api_skeleton/repository"
@@ -15,13 +16,9 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-func init() {
-	context.GetMongoSession()
-}
-
 func main() {
-	logger := context.GetLogger()
-
+	logger := apiContext.GetLogger()
+	apiConfig := apiContext.GetAPIConfig()
 	echoInstance := echo.New()
 
 	// Configure New Relic
@@ -33,8 +30,9 @@ func main() {
 	// Configure routes
 	configureAllRoutes(echoInstance)
 
-	logger.Info("Main", "main", "", "", "start app", "success", "Started at port 8888!")
-	echoInstance.Logger.Fatal(echoInstance.Start(":8888"))
+	logger.Info("Main", "main", "", "", "", fmt.Sprintf("Started at %d", apiConfig.HostPort), "")
+	route := fmt.Sprintf(":%d", apiConfig.HostPort)
+	echoInstance.Logger.Fatal(echoInstance.Start(route))
 }
 
 func configureAllRoutes(echoInstance *echo.Echo) {
@@ -67,7 +65,7 @@ func configureMetrics(echoInstance *echo.Echo) {
 
 // configureNewRelic is the method that enable the new relic
 func configureNewRelic(echoInstance *echo.Echo) {
-	logger := context.GetLogger()
+	logger := apiContext.GetLogger()
 
 	newRelicEnvVar := os.Getenv("ENABLE_NEW_RELIC")
 	newRelicEnable, err := strconv.ParseBool(newRelicEnvVar)
@@ -92,7 +90,7 @@ func configureNewRelic(echoInstance *echo.Echo) {
 
 // createNewRelicApp is the method that create new relic config
 func createNewRelicApp() (newrelic.Application, error) {
-	log := context.GetLogger()
+	log := apiContext.GetLogger()
 	licenseKeyEnvVar := os.Getenv("NEW_RELIC_LICENSE_KEY")
 
 	config := newrelic.NewConfig("My Awesome API", licenseKeyEnvVar)

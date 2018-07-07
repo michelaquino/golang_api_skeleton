@@ -35,6 +35,7 @@ type APIConfig struct {
 	LogConfig     *LogConfig
 	MongoDBConfig *MongoConfig
 	RedisConfig   *RedisConfig
+	HostPort      int
 }
 
 var apiConfig *APIConfig
@@ -47,6 +48,7 @@ func GetAPIConfig() *APIConfig {
 			LogConfig:     getLogConfig(),
 			MongoDBConfig: getMongoConfig(),
 			RedisConfig:   getRedisConfig(),
+			HostPort:      getApiHostPort(), // TODO: colocar no skeleton
 		}
 	})
 
@@ -111,4 +113,13 @@ func getMongoTimeout() time.Duration {
 	}
 
 	return time.Duration(mongoTimeout) * time.Second
+}
+
+func getApiHostPort() int {
+	apiPort, err := strconv.Atoi(os.Getenv("HOST_PORT"))
+	if err != nil {
+		apiPort = 8888
+	}
+
+	return apiPort
 }
