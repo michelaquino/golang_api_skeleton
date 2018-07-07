@@ -47,12 +47,12 @@ func (r RedisCache) Get(key string) (string, error) {
 	cacheValue, err := r.client.Get(key).Result()
 	if err == redis.Nil {
 		cacheLogger.Debug("RedisCache", "Get", "", "", "Get key", "Key "+key+" not found on cache", redis.Nil.Error())
-		return "", apiErrors.ErrNotFoundOnCache
+		return "", apierror.ErrNotFoundOnCache
 	}
 
 	if err != nil {
 		cacheLogger.Error("RedisCache", "Get", "", "", "Get key", "Error", err.Error())
-		return "", apiErrors.ErrGetCacheValue
+		return "", apierror.ErrGetCacheValue
 	}
 
 	cacheLogger.Error("RedisCache", "Get", "", "", "Get key", "Success", "Object getted with success")
