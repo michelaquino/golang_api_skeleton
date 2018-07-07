@@ -13,8 +13,13 @@ const RequestIDKey = "requestLogDataContextKey"
 func RequestLogDataMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(echoContext echo.Context) error {
+			requestID := echoContext.Request().Header.Get("X-Request-Id")
+			if requestID == "" {
+				requestID = uuid.NewV4().String()
+			}
+
 			requestLogData := models.RequestLogData{
-				ID:       uuid.NewV4().String(),
+				ID:       requestID,
 				OriginIP: echoContext.Request().RemoteAddr,
 			}
 
