@@ -1,5 +1,5 @@
 ########################### Build Base ###########################
-FROM golang:1.16-alpine as build_base
+FROM golang:1.19-alpine as build_base
 
 RUN apk add git make
 
