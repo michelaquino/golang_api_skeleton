@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"log/slog"
 	"net/http"
 	"net/url"
 
@@ -20,11 +21,10 @@ func configureNewRelic(ctx context.Context, echoInstance *echo.Echo) {
 
 	newRelicApp, err := createNewRelicApp(ctx)
 	if err != nil {
-		logger.Error(ctx, "enabling New Relic", err.Error(), nil)
+		slog.ErrorContext(ctx, err.Error())
 	}
 
 	echoInstance.Use(apiMiddleware.NewRelicMiddleware(newRelicApp))
-	logger.Info(ctx, "enabling New Relic", "success", nil)
 }
 
 // createNewRelicApp is the method that creates New Relic configuration.
@@ -34,7 +34,7 @@ func createNewRelicApp(ctx context.Context) (newrelic.Application, error) {
 	config := newrelic.NewConfig("My Awesome API", licenseKeyEnvVar)
 	proxyURL, err := url.Parse(viper.GetString("new_relic.proxy.url"))
 	if err != nil {
-		logger.Error(ctx, "parse proxy url from env var", err.Error(), nil)
+		slog.ErrorContext(ctx, err.Error())
 	}
 
 	config.Transport = &http.Transport{
@@ -43,7 +43,7 @@ func createNewRelicApp(ctx context.Context) (newrelic.Application, error) {
 
 	newRelicApp, err := newrelic.NewApplication(config)
 	if err != nil {
-		logger.Error(ctx, "create New Relic APP ", err.Error(), nil)
+		slog.ErrorContext(ctx, err.Error())
 		return nil, err
 	}
 

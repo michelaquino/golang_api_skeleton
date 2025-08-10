@@ -3,14 +3,10 @@ package server
 import (
 	"context"
 	"fmt"
+	"log/slog"
 
 	"github.com/labstack/echo/v4"
-	"github.com/michelaquino/golang_api_skeleton/src/log"
 	"github.com/spf13/viper"
-)
-
-var (
-	logger = log.GetLogger()
 )
 
 // Start HTTP server
@@ -28,7 +24,7 @@ func Start() {
 	configureRoutes(echoInstance)
 
 	port := viper.GetInt("api.host.port")
-	logger.Info(ctx, "start api", fmt.Sprintf("Started at %d", port), nil)
+	slog.InfoContext(ctx, "start api", "port", port)
 
 	echoInstance.Logger.Fatal(echoInstance.Start(fmt.Sprintf(":%d", port)))
 }

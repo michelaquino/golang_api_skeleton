@@ -2,16 +2,13 @@ package repository
 
 import (
 	"context"
+	"log/slog"
 
-	"github.com/michelaquino/golang_api_skeleton/src/log"
 	"github.com/michelaquino/golang_api_skeleton/src/models"
 	"github.com/michelaquino/golang_api_skeleton/src/mongo"
 )
 
-var (
-	userMongoCollectionName = "user"
-	logger                  = log.GetLogger()
-)
+var userMongoCollectionName = "user"
 
 // UserMongoRepository is a user repository for MongoDB.
 type UserMongoRepository struct{}
@@ -21,10 +18,10 @@ func (u UserMongoRepository) Insert(ctx context.Context, userToInsert models.Use
 	// Execute Mongo's Insert
 	err := mongo.Insert(ctx, userMongoCollectionName, &userToInsert)
 	if err != nil {
-		logger.Error(ctx, "create user", err.Error(), nil)
+		slog.ErrorContext(ctx, err.Error())
 		return err
 	}
 
-	logger.Info(ctx, "create user", "Success", nil)
+	slog.ErrorContext(ctx, err.Error())
 	return nil
 }

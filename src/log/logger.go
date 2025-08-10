@@ -1,46 +1,45 @@
 package log
 
 import (
-	"context"
-	"sync"
+	"log/slog"
+	"os"
+	"strings"
 
 	"github.com/spf13/viper"
 )
 
-// Logger is a interface to log object
-type Logger interface {
-	// Debug write a debug log level
-	Debug(context context.Context, action string, message string, extraFields map[string]string)
+const (
+	keyValueEncoding string = "key-value"
+)
 
-	// Info write a info log level
-	Info(context context.Context, action string, message string, extraFields map[string]string)
+func InitLog() {
+	opts := &slog.HandlerOptions{Level: getLevel()}
 
-	// Warn write a warning log level
-	Warn(context context.Context, action string, message string, extraFields map[string]string)
+	var handler slog.Handler = slog.NewJSONHandler(os.Stdout, opts)
+	if viper.GetString("log.encoding") == keyValueEncoding {
+		handler = slog.NewTextHandler(os.Stderr, opts)
+	}
 
-	// Error write a error log level
-	Error(context context.Context, action string, message string, extraFields map[string]string)
-
-	// Fatal write a fatal log level. The logger then calls os.Exit(1), even if logging at Fatal level is disabled.
-	Fatal(context context.Context, action string, message string, extraFields map[string]string)
-
-	// Panic write a Panic log level. Then panics then panic, even if logging at Panic level is disabled.
-	Panic(context context.Context, action string, message string, extraFields map[string]string)
+	slog.SetDefault(slog.New(handler))
 }
 
-var appLog *zapLog
-var onceLog sync.Once
+func getLevel() slog.Level {
+	logLevelConfig := strings.ToUpper(os.Getenv("LOG_LEVEL"))
+	if logLevelConfig == "DEBUG" {
+		return slog.LevelDebug
+	}
 
-// GetLogger return a new instance of the log for the application
-func GetLogger() Logger {
-	onceLog.Do(func() {
-		encoding := viper.GetString("log.encoding")
-		if encoding == "" {
-			encoding = jsonEncoding
-		}
+	if logLevelConfig == "INFO" {
+		return slog.LevelInfo
+	}
 
-		appLog = newZapLog(encoding)
-	})
+	if logLevelConfig == "WARN" {
+		return slog.LevelWarn
+	}
 
-	return appLog
+	if logLevelConfig == "ERROR" {
+		return slog.LevelError
+	}
+
+	return slog.LevelInfo
 }

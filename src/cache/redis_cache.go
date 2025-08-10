@@ -3,17 +3,13 @@ package cache
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"strings"
 	"time"
 
-	apierror "github.com/michelaquino/golang_api_skeleton/src/api_errors"
-	"github.com/michelaquino/golang_api_skeleton/src/log"
-
 	goredis "github.com/go-redis/redis/v8"
-)
 
-var (
-	logger = log.GetLogger()
+	apierror "github.com/michelaquino/golang_api_skeleton/src/api_errors"
 )
 
 // Config has the redis configs
@@ -112,18 +108,18 @@ func NewRedis(config Config) *RedisCache {
 func (r RedisCache) Get(ctx context.Context, key string) (string, error) {
 	cacheValue, err := r.client.Get(ctx, key).Result()
 
-	logAction := fmt.Sprintf("get key %s", key)
+	logAction := "get key %s - %s"
 	if err == goredis.Nil {
-		logger.Info(ctx, logAction, "", nil)
+		slog.InfoContext(ctx, fmt.Sprintf(logAction, key, "not found"))
 		return "", apierror.ErrNotFoundOnCache
 	}
 
 	if err != nil {
-		logger.Error(ctx, logAction, err.Error(), nil)
+		slog.ErrorContext(ctx, fmt.Sprintf(logAction, key, err.Error()))
 		return "", apierror.ErrGetCacheValue
 	}
 
-	logger.Info(ctx, logAction, "success", nil)
+	slog.InfoContext(ctx, fmt.Sprintf(logAction, key, "success"))
 	return cacheValue, nil
 }
 
@@ -131,14 +127,14 @@ func (r RedisCache) Get(ctx context.Context, key string) (string, error) {
 func (r RedisCache) Set(ctx context.Context, key, value string, expireInSec int) error {
 	expire := time.Duration(expireInSec) * time.Second
 
-	logAction := fmt.Sprintf("get key %s with expiration %d", key, expireInSec)
+	logAction := "get key %s with expiration %d - %s"
 	err := r.client.Set(ctx, key, value, expire).Err()
 	if err != nil {
-		logger.Error(ctx, logAction, err.Error(), nil)
+		slog.ErrorContext(ctx, fmt.Sprintf(logAction, key, expireInSec, err.Error()))
 		return err
 	}
 
-	logger.Debug(ctx, logAction, "success", nil)
+	slog.DebugContext(ctx, fmt.Sprintf(logAction, key, expireInSec, err.Error()))
 	return nil
 }
 
